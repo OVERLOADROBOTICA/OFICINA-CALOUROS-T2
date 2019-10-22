@@ -2,15 +2,25 @@
 Thermistor temp(0);
 int ledvermelho = 2;
 
-void setup(){
+void setup() {
   Serial.begin(9600);
   pinMode(ledvermelho, OUTPUT);
   pinMode(3, OUTPUT);
 }
-void loop(){
+void loop() {
   int temperature = temp.getTemp();
   Serial.print("Temperatura: ");
   Serial.print(temperature);
   Serial.println("*C");
-}
 
+  if (temperature >= 18) {
+    digitalWrite(ledvermelho, HIGH);
+    digitalWrite(3, LOW);
+  }
+  
+  else{
+    digitalWrite(3, HIGH);
+    digitalWrite(ledvermelho, LOW);
+  }
+  
+}
