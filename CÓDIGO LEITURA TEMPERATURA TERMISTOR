@@ -17,10 +17,11 @@ void loop() {
     digitalWrite(ledvermelho, HIGH);
     digitalWrite(3, LOW);
   }
-  
-  else{
+
+  else {
     digitalWrite(3, HIGH);
     digitalWrite(ledvermelho, LOW);
   }
-  
+
+  delay(1000); //delay de 1000ms ou 1s
 }
