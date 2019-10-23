@@ -25,7 +25,7 @@ void setup() {
 }
 
 void loop() {
-  posicaocm = 0, 01723 * readUltrasonicDistance(7, 6);
+  posicaocm = 0.01723 * readUltrasonicDistance(7, 6);
   Serial.print(posicaocm);
   Serial.println(" cm");
 
