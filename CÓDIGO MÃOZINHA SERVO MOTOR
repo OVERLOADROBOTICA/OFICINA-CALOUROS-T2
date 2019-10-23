@@ -1,14 +1,9 @@
 #include <Servo.h>
+Servo myservo;
+//bit.ly/oficinas-t2 <----
 
-Servo myservo; //Variável da biblioteca que declara o Servo Motor
-
-int distanciamaxima = 0; //Variável que receberá a posição em que o motor funcionará
-
-int posicaocm = 0; //Variável que receberá o valor lido pelo sensor em cm
-
-//OS COMANDOS ABAIXO SÃO EXCLUSIVOS DA BIBLIOTECA E DISPONÍVEIS PARA PESQUISA
-//PODEM HAVER DECLARAÇÕES SEMELHANTES A UM CÓDIGO COMUM DO ARDUINO MAS NA BIBLIOTECA SÃO ADAPTADOS
-//E TRANSFORMADAS EM FUNÇÕES MODIFICADAS PARA LEITURA DO SENSOR
+int distanciamaxima;
+int posicaocm;
 
 long readUltrasonicDistance(int triggerPin, int echoPin)
 {
@@ -19,37 +14,32 @@ long readUltrasonicDistance(int triggerPin, int echoPin)
   digitalWrite(triggerPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(triggerPin, LOW);
-  
+
   pinMode(echoPin, INPUT);
   return pulseIn(echoPin, HIGH);
 }
 
-void setup()
-{
-  Serial.begin(9600); //Velocidade de leitura e escrita (default) do monitor serial
+void setup() {
+  Serial.begin(9600);
+  distanciamaxima = 40;
 }
 
-void loop()
-{
- 
-  distanciamaxima = 40;
-
-  posicaocm = 0.01723 * readUltrasonicDistance(7, 6);
-
+void loop() {
+  posicaocm = 0, 01723 * readUltrasonicDistance(7, 6);
   Serial.print(posicaocm);
-  Serial.println("cm");
+  Serial.println(" cm");
 
-  if(posicaocm >= distanciamaxima){
+  if (posicaocm >= distanciamaxima) {
     delay(200);
     myservo.attach(2);
     myservo.write(0);
   }
 
-  if(posicaocm < distanciamaxima){
+  if (posicaocm < distanciamaxima) {
     delay(100);
     myservo.attach(2);
     myservo.write(90);
   }
+
   delay(50);
-    
 }
