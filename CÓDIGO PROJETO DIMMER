@@ -1,0 +1,26 @@
+#include <Servo.h>
+Servo myservo;
+int pinopotenciometro = A0;
+int led = 3;
+int pwm = 0;
+int valorpot;
+double anguloservo;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(led, OUTPUT);
+  myservo.attach(9);
+}
+void loop() {
+  valorpot = analogRead(pinopotenciometro);
+  pwm = map(valorpot, 0, 1023, 0, 255);
+  anguloservo = map(valorpot, 0, 1023, 10, 170);
+
+  analogWrite(led, pwm);
+  myservo.write(anguloservo);
+
+  Serial.println(valorpot);
+  Serial.println(pwm);
+  Serial.print(anguloservo);
+  delay(100);
+}
