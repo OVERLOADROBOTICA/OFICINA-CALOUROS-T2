@@ -1,0 +1,81 @@
+int distanciamaxima;
+int posicaocm;
+int buzzer = 2;
+int ledazul = 3;
+int ledverde = 4;
+int ledvermelho = 5;
+
+long readUltrasonicDistance(int triggerPin, int echoPin)
+{
+  //Define inicialmente o pino do trigger como LOW para 2ms
+  pinMode(triggerPin, OUTPUT);
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+
+  //Define o pino do trigger como HIGH para 10ms
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+
+  //Após obter a leitura ativa o pino echo
+  pinMode(echoPin, INPUT);
+  return pulseIn(echoPin, HIGH);
+}
+
+void setup() {
+  pinMode(buzzer, OUTPUT);
+  pinMode(ledverde, OUTPUT);
+  pinMode(ledazul, OUTPUT);
+  pinMode(ledvermelho, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  distanciamaxima = 70;
+  posicaocm = 0.01723 * readUltrasonicDistance (7, 6);
+  Serial.print(posicaocm);
+  Serial.println(" cm");
+
+  if (posicaocm > distanciamaxima) {
+    digitalWrite(ledverde, LOW);
+    digitalWrite(ledvermelho, LOW);
+    digitalWrite(ledazul, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+  if (posicaocm <= distanciamaxima && posicaocm > (distanciamaxima * 2 / 3)) {
+    digitalWrite(ledverde, HIGH);
+    digitalWrite(ledvermelho, LOW);
+    digitalWrite(ledazul, LOW);
+    digitalWrite(buzzer, HIGH);
+    delay(110);
+    digitalWrite(buzzer, LOW);
+    delay(110);
+  }
+
+  if (posicaocm <= (distanciamaxima * 2 / 3) && posicaocm > (distanciamaxima * 1 / 3)) {
+    digitalWrite(ledazul, HIGH);
+    digitalWrite(ledvermelho, LOW);
+    digitalWrite(ledverde, LOW);
+    digitalWrite(buzzer, HIGH);
+    delay(70);
+    digitalWrite(buzzer, LOW);
+    delay(70);
+  }
+
+  if (posicaocm <= (distanciamaxima * 1 / 3) && posicaocm > 10) {
+    digitalWrite(ledvermelho, HIGH);
+    digitalWrite(ledazul, LOW);
+    digitalWrite(ledverde, LOW);
+    digitalWrite(buzzer, HIGH);
+    delay(30);
+    digitalWrite(buzzer, LOW);
+    delay(30);
+  }
+
+  if(posicaocm < 10){
+    digitalWrite(buzzer, HIGH);
+    digitalWrite(ledvermelho, HIGH);
+    digitalWrite(ledazul, HIGH);
+    digitalWrite(ledverde, HIGH);
+  }
+}
