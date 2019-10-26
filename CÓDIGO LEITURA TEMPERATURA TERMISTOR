@@ -6,6 +6,8 @@ int ledazul = 3;
 
 void setup() {
   Serial.begin(9600);
+  pinMode(ledazul, OUTPUT);
+  pinMode(ledvermelho, OUTPUT);
 }
 
 void loop() {
