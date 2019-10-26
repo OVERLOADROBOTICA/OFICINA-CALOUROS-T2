@@ -1,27 +1,26 @@
 #include <Thermistor.h>
 Thermistor temp(0);
+
 int ledvermelho = 2;
+int ledazul = 3;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(ledvermelho, OUTPUT);
-  pinMode(3, OUTPUT);
 }
+
 void loop() {
   int temperature = temp.getTemp();
-  Serial.print("Temperatura: ");
+  Serial.print("Temperatura = ");
   Serial.print(temperature);
-  Serial.println("*C");
+  Serial.println(" °C");
 
   if (temperature >= 18) {
     digitalWrite(ledvermelho, HIGH);
-    digitalWrite(3, LOW);
+    digitalWrite(ledazul, LOW);
   }
 
   else {
-    digitalWrite(3, HIGH);
+    digitalWrite(ledazul, HIGH);
     digitalWrite(ledvermelho, LOW);
   }
-
-  delay(1000); //delay de 1000ms ou 1s
 }
