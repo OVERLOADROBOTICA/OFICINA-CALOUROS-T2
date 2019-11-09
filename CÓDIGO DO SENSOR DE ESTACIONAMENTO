@@ -75,7 +75,7 @@ void loop() {
   if(posicaocm < 10){
     digitalWrite(buzzer, HIGH);
     digitalWrite(ledvermelho, HIGH);
-    digitalWrite(ledazul, HIGH);
-    digitalWrite(ledverde, HIGH);
+    digitalWrite(ledazul, LOW);
+    digitalWrite(ledverde, LOW);
   }
 }
