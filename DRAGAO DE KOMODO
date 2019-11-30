@@ -1,0 +1,124 @@
+// AQUI JÁS UM COMENTÁRIO
+//PRIMEIRO A GENTE DECIDE O QUE FAZER!
+/*O QUE A GENTE FARÁ?
+   PISCA-PISCA DE NATAL COM 3 COMBINAÇÕES
+   //--MATERIAIS:--//
+   LED RGB
+   BOTÃO
+   JUMPER
+   ARDUINO C/ CABO USB
+   PROTOBOARD
+   RESISTOR 330 FONE DE OUVIDO
+
+   //--MÉTODOS--//
+   ACENDER E APAGAR OS LEDS
+   DELAY(100-1000)
+   CONTADOR P/ COMBINACOES
+   LAÇO DE REPETIÇÃO
+*/
+
+
+//PRIMEIRO' NÓS DECLARAREMOS AS VARIÁVEIS
+int redled = 6;
+int blueled = 2;
+int greenled = 4;
+
+int botao = 3;
+
+int pwm = 125;
+int pwmligado = 255;
+int pwmdesligado = 0;
+
+int bicicleta;
+
+//SEGUNDO SETUP
+void setup() {
+  pinMode(redled, OUTPUT);
+  pinMode(greenled, OUTPUT);
+  pinMode(blueled, OUTPUT);
+
+  pinMode(botao, INPUT);
+  Serial.begin(9600);
+
+  bicicleta = 1;
+}
+
+//TERCEIRO LOOP
+void loop() {
+  if (digitalRead(botao) == HIGH) {
+    bicicleta = bicicleta + 1;
+    if (bicicleta == 4) {
+      bicicleta = 1;
+    }
+  }
+
+  Serial.print("COMBINAÇÃO: ");
+  Serial.println(bicicleta);
+
+  if (bicicleta == 1) {
+    combinacao1();
+  }
+
+  else if (bicicleta == 2) {
+    combinacao2();
+  }
+
+  else if (bicicleta == 3) {
+    combinacao3();
+  }
+}
+
+
+void combinacao1() {
+  //combinacao1:
+  digitalWrite(blueled, HIGH);
+  delay(500);
+  digitalWrite(blueled, LOW);
+  digitalWrite(greenled, HIGH);
+  delay(500);
+  digitalWrite(greenled, LOW);
+
+  while (pwmligado > 0) {
+    analogWrite(redled, pwmligado);
+    pwmligado--;
+    delay(50);
+  }
+}
+
+void combinacao2() {
+  digitalWrite(greenled, HIGH);
+  delay(150);
+  analogWrite(redled, pwm);
+  delay(200);
+  digitalWrite(greenled, LOW);
+  digitalWrite(blueled, HIGH);
+  delay(250);
+  while (pwm > 0) {
+    analogWrite(redled, pwm);
+    pwm--;
+    delay(50);
+  }
+  delay(300);
+  digitalWrite(blueled, LOW);
+}
+
+void combinacao3() {
+  digitalWrite(blueled, HIGH);
+
+  while (pwmdesligado < 255) {
+    analogWrite(redled, pwmdesligado);
+    pwmdesligado++;
+    delay(50);
+  }
+
+  digitalWrite(blueled, LOW);
+  digitalWrite(greenled, HIGH);
+
+  while (pwmdesligado > 0) {
+    analogWrite(redled, pwmdesligado);
+    pwmdesligado--;
+    delay(50);
+  }
+
+  digitalWrite(greenled, LOW);
+}
