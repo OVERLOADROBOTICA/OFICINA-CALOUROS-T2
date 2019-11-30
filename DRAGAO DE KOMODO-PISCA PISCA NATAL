@@ -45,25 +45,16 @@ void setup() {
 
 //TERCEIRO LOOP
 void loop() {
-  if (digitalRead(botao) == HIGH) {
-    bicicleta = bicicleta + 1;
-    if (bicicleta == 4) {
-      bicicleta = 1;
-    }
-  }
-
-  Serial.print("COMBINAÇÃO: ");
-  Serial.println(bicicleta);
 
   if (bicicleta == 1) {
     combinacao1();
   }
 
-  else if (bicicleta == 2) {
+  if (bicicleta == 2) {
     combinacao2();
   }
 
-  else if (bicicleta == 3) {
+  if (bicicleta == 3) {
     combinacao3();
   }
 }
@@ -71,55 +62,107 @@ void loop() {
 
 void combinacao1() {
   //combinacao1:
+  pwmligado = 255;
   digitalWrite(blueled, HIGH);
+
+  leitura();
   delay(500);
+  leitura();
+  
   digitalWrite(blueled, LOW);
   digitalWrite(greenled, HIGH);
+
+  leitura();
   delay(500);
+  leitura();
+  
   digitalWrite(greenled, LOW);
   analogWrite(redled, 255);
   while (pwmligado > 0) {
+    leitura();
     analogWrite(redled, pwmligado);
     pwmligado--;
-    delay(50);
+    delay(1);
+    leitura();
   }
+  leitura();
 }
 
 void combinacao2() {
   digitalWrite(greenled, HIGH);
+  
+  leitura();
   delay(150);
+  leitura();
+  
   pwm = 127;
   analogWrite(redled, pwm);
+  
+  leitura();
   delay(200);
+  leitura();
+  
   digitalWrite(greenled, LOW);
   digitalWrite(blueled, HIGH);
+  
+  leitura();
   delay(250);
+  leitura();
+  
   while (pwm > 0) {
+    leitura();
     analogWrite(redled, pwm);
     pwm--;
     delay(50);
+    leitura();
   }
+
+  leitura();
   delay(300);
+  leitura();
+  
   digitalWrite(blueled, LOW);
+  leitura();
 }
 
 void combinacao3() {
   digitalWrite(blueled, HIGH);
 
   while (pwmdesligado < 255) {
+    leitura();
     analogWrite(redled, pwmdesligado);
     pwmdesligado++;
     delay(50);
+    leitura();
   }
 
   digitalWrite(blueled, LOW);
   digitalWrite(greenled, HIGH);
 
   while (pwmdesligado > 0) {
+    leitura();
     analogWrite(redled, pwmdesligado);
     pwmdesligado--;
     delay(50);
+    leitura();
   }
 
   digitalWrite(greenled, LOW);
+  leitura();
 }
+
+void leitura() {
+  Serial.println(digitalRead(botao));
+  
+  if (digitalRead(botao) == HIGH) {
+    bicicleta = bicicleta + 1;
+    if (bicicleta == 4) {
+      bicicleta = 1;
+    }
+  }
+  
+  Serial.print("COMBINAÇÃO: ");
+  Serial.println(bicicleta);
+
+}
+
